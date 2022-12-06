@@ -5,9 +5,7 @@ metadata:
   labels:
     {{- include "nginx.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "nginx.selectorLabels" . | nindent 6 }}
@@ -39,12 +37,19 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
-              port: http
+              path: /index.html
+              port: 80
+              scheme: HTTP
           readinessProbe:
             httpGet:
-              path: /
-              port: http
+              path: /50x.html
+              port: 80
+              scheme: HTTP
+            timeoutSeconds: 1
+            successThreshold: 2
+            failureThreshold: 1
+            initialDelaySeconds: 5
+            periodSeconds: 3
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
