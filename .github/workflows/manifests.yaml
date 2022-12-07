@@ -12,11 +12,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
       - name: Set up kubectl
         uses: azure/setup-kubectl@v1
 
-      - name: echo kubectl version
-        run: kubectl version --client=true
+      - name: validate manifests
+        run: cue vet examples/nginx-deployment.yaml examples/nginx-deployment.cue
