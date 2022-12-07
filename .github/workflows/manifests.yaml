@@ -21,7 +21,7 @@ jobs:
         uses: azure/setup-kubectl@v1
 
       - name: Set up cue
-        uses: cue-lang/setup-cue@v1
+        uses: cue-lang/setup-cue@v0.0.1
 
       - name: validate manifests
         run: cue vet examples/nginx-deployment.yaml examples/nginx-deployment.cue
