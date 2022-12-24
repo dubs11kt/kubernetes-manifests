@@ -2,6 +2,8 @@ name: Helm
 
 on:
   push:
+    branches:
+      - master
     paths:
       - 'helm/**'
   workflow_dispatch: {}
